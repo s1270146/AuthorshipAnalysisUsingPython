@@ -1,0 +1,36 @@
+# 1. Get all tweets of different 2 authors.
+
+def getAllTweetsBy2Authors() :
+  read file
+
+#  2. Process those datasets to which we can easily analyse.
+
+def processDatasets():
+    processedList = get author name and tweet content.
+
+# 3. Analyze that processed datasets using n-gram.
+
+def doNGram() :
+    do NGram Algorithm in here
+    return result
+
+def analyzeDatasetsByNGram() :
+    analyzedList = doNGram()
+
+# 4. Compare ONE Questioned dataset with ONE Known dataset.
+
+def calculateFeature(analyzedList) :
+    compare analyzedList and unknown text    
+
+# 5. Output the numerical score which describe the simirality.
+
+def outputScore() :
+    output result
+
+
+# install pandas
+# install numexpr
+
+# https://note.nkmk.me/python-pandas-query/
+# https://weblabo.oscasierra.net/python/python3-beginning-csv-read.html
+# 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
