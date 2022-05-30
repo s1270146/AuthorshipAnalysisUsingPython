@@ -9,7 +9,6 @@ class Analyse:
 
     def __init__(self, tweetList) -> None:
         """set initial conditions
-
         Args:
             self: author 
             tweetList: tweetList of its author 
