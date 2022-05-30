@@ -2,6 +2,8 @@ import Analyse
 import getTweets as gt
 import processData as pd
 
+# get dataset 
+
 print("Read katy's Tweets")
 katyTweets = gt.getAllTweetsBy2Authors('katyperry')
 katyList = pd.processDatasets(katyTweets)
@@ -9,10 +11,14 @@ print("Read taylor's Tweets")
 taylorTweets = gt.getAllTweetsBy2Authors('taylorswift13')
 taylorList = pd.processDatasets(taylorTweets)
 
+# dataset process
+
 print("generate katy's object")
 katy = Analyse.Analyse(katyList)
 print("generate taylor's object")
 taylor = Analyse.Analyse(taylorList)
+
+# analyse
 
 print("'known = katy , questioned = katy' analysing now")
 kk = katy.analyse(katy.questionedDict)
