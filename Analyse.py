@@ -3,7 +3,7 @@ class Analyse:
     
     N=2
     questionedDict = [] # 10% of self's tweets
-    knownDict = [] # 90% of self's tweets
+    knownDict = [] # 90% of self's tweet
     questionedList = []
     knownList = []   
 
