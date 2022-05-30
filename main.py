@@ -1,16 +1,32 @@
+from analyse import userAnalyse 
 import getTweets as gt
-import ngram as ng
 import processData as pd
 
+print("Read katy's Tweets")
 katyTweets = gt.getAllTweetsBy2Authors('katyperry')
-
-# print(ng.n_gram(katyTweets[2], 2))
 katyList = pd.processDatasets(katyTweets)
-print("analysis katyperry's 10 tweets")
-print("----------------------------------------------")
-for i in range(10):
-    print("Text : ",katyTweets[i])
-    print("unigram : ",katyList[i])
-    print("bigram : ",ng.doNGram(katyList[i],2))
-    print("trigram : ",ng.doNGram(katyList[i],3))
-    print("----------------------------------------------")
+
+print("Read taylor's Tweets")
+taylorTweets = gt.getAllTweetsBy2Authors('taylorswift13')
+taylorList = pd.processDatasets(taylorTweets)
+
+print("generate katy's object")
+katy = userAnalyse(katyList)
+
+print("generate taylor's object")
+taylor = userAnalyse(taylorList)
+
+print("'known = katy , questioned = katy' analysing now")
+kk = katy.execute(katy.questionedDict)
+print("'known = katy , questioned = taylor' analysing now")
+kt = katy.execute(taylor.questionedDict)
+print("'known =  taylor, questioned = katy' analysing now")
+tk = taylor.execute(katy.questionedDict)
+print("'known =  taylor, questioned = taylor' analysing now")
+tt = taylor.execute(taylor.questionedDict)
+
+print("known = katy , questioned = katy " + kk)
+print("known = katy , questioned = taylor " + kt)
+print("known = taylor , questioned = katy " + tk)
+print("known = taylor , questioned = taylor " + tt)
+
