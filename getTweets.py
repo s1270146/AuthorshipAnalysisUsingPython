@@ -4,7 +4,6 @@ def getAllTweetsBy2Authors(name):
 
     data = pd.read_csv('tweets.csv',usecols=[0,1])
     data = data[data['author']==name]
-
     return data['content'].astype(str)
 
 # fName = input("Input 1th author's name:")
