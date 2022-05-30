@@ -9,4 +9,4 @@ def doNGram(target, n):
         for j in range(n):
             il.append(target[i+j])
         li.append(il)
-    print(li)
+    return li

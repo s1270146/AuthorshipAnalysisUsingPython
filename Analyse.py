@@ -1,3 +1,4 @@
+from inspect import ismethoddescriptor
 from tqdm import tqdm
 class Analyse:
     N=2
@@ -31,7 +32,7 @@ class Analyse:
         cnt = 0
         for i in tqdm(range(len(self.knownDict))):
             for j in range(len(terget)):
-                if (self.knownDict[j][0] == terget[j][0]) & (self.knownDict[j][1] == terget[j][1]):
+                if self.knownDict[i] == terget[j]:
+                    #print(self.knownDict[i][0] , terget[j][0]  +" , "+  self.knownDict[i][1] , terget[j][1])
                     cnt += 1
-                    print(cnt)
         return str(cnt)

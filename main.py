@@ -18,13 +18,19 @@ print("'known = katy , questioned = katy' analysing now")
 kk = katy.analyse(katy.questionedDict)
 print("'known = katy , questioned = taylor' analysing now")
 kt = katy.analyse(taylor.questionedDict)
+
+"""
 print("'known =  taylor, questioned = katy' analysing now")
 tk = taylor.analyse(katy.questionedDict)
 print("'known =  taylor, questioned = taylor' analysing now")
 tt = taylor.analyse(taylor.questionedDict)
+"""
 
 print("known = katy , questioned = katy " + kk)
 print("known = katy , questioned = taylor " + kt)
+
+"""
 print("known = taylor , questioned = katy " + tk)
 print("known = taylor , questioned = taylor " + tt)
+"""
 
