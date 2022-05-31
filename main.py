@@ -2,35 +2,42 @@ import Analyse
 import getTweets as gt
 import processData as pd
 
-print("Read katy's Tweets")
-katyTweets = gt.getAllTweetsBy2Authors('katyperry')
-katyList = pd.processDatasets(katyTweets)
-print("Read taylor's Tweets")
-taylorTweets = gt.getAllTweetsBy2Authors('taylorswift13')
-taylorList = pd.processDatasets(taylorTweets)
+A_NAME = 'BarackObama'
+B_NAME = 'YouTube'
 
-print("generate katy's object")
-katy = Analyse.Analyse(katyList)
-print("generate taylor's object")
-taylor = Analyse.Analyse(taylorList)
+print("Read "+A_NAME+"'s Tweets")
+ATweets = gt.getAllTweetsBy2Authors(A_NAME)
+AList = pd.processDatasets(ATweets)
+print("Read "+B_NAME+"'s Tweets")
+BTweets = gt.getAllTweetsBy2Authors(B_NAME)
+BList = pd.processDatasets(BTweets)
 
-print("'known = katy , questioned = katy' analysing now")
-kk = katy.analyse(katy.questionedDict)
-print("'known = katy , questioned = taylor' analysing now")
-kt = katy.analyse(taylor.questionedDict)
+print("generate "+A_NAME+"'s object")
+A = Analyse.Analyse(AList)
+print("generate "+B_NAME+"'s object")
+B = Analyse.Analyse(BList)
 
-"""
-print("'known =  taylor, questioned = katy' analysing now")
-tk = taylor.analyse(katy.questionedDict)
-print("'known =  taylor, questioned = taylor' analysing now")
-tt = taylor.analyse(taylor.questionedDict)
-"""
+print("'known = "+A_NAME+" , questioned = "+A_NAME+"' bi-gram analysing")
+aa = A.bigramAnalyse(A.questioned2Dict)
+print("'known = "+A_NAME+" , questioned = "+B_NAME+"' bi-gram analysing")
+ab = A.bigramAnalyse(B.questioned2Dict)
+print("'known = "+B_NAME+" , questioned = "+A_NAME+"' bi-gram analysing")
+ba = B.bigramAnalyse(A.questioned2Dict)
+print("'known = "+B_NAME+" , questioned = "+B_NAME+"' bi-gram analysing")
+bb = B.bigramAnalyse(B.questioned2Dict)
 
-print("known = katy , questioned = katy " + kk)
-print("known = katy , questioned = taylor " + kt)
+print("'known = "+A_NAME+" , questioned = "+A_NAME+"' tri-gram analysing")
+aa += A.trigramAnalyse(A.questioned3Dict)
+print("'known = "+A_NAME+" , questioned = "+B_NAME+"' tri-gram analysing")
+ab += A.trigramAnalyse(B.questioned3Dict)
+print("'known = "+B_NAME+" , questioned = "+A_NAME+"' tri-gram analysing")
+ba += B.trigramAnalyse(A.questioned3Dict)
+print("'known = "+B_NAME+" , questioned = "+B_NAME+"' tri-gram analysing")
+bb += B.trigramAnalyse(B.questioned3Dict)
 
-"""
-print("known = taylor , questioned = katy " + tk)
-print("known = taylor , questioned = taylor " + tt)
-"""
-
+#50以上で真？
+#40以下で偽？
+print("known = "+A_NAME+" , questioned = "+A_NAME+" " + str(round(aa * 1000 , 5)))
+print("known = "+A_NAME+" , questioned = "+B_NAME+" " + str(round(ab * 1000 , 5)))
+print("known = "+B_NAME+" , questioned = "+A_NAME+" " + str(round(ba * 1000 , 5)))
+print("known = "+B_NAME+" , questioned = "+B_NAME+" " + str(round(bb * 1000 , 5)))

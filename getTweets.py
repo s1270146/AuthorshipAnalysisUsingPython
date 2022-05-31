@@ -13,3 +13,10 @@ def getAllTweetsBy2Authors(name):
 # sContents = getAllTweetsBy2Authors(sName)
 # print(fContents)
 # print(sContents)
+
+
+if __name__ == '__main__':
+    name1 = 'katyperry'
+    name2 = 'taylorswift13'
+    print(getAllTweetsBy2Authors(name1))
+    print(getAllTweetsBy2Authors(name2))
