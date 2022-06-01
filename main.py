@@ -1,32 +1,73 @@
-from analyse import userAnalyse 
+from Analyse import UserAnalyse 
 import getTweets as gt
 import processData as pd
 
-print("Read katy's Tweets")
-katyTweets = gt.getAllTweetsBy2Authors('katyperry')
-katyList = pd.processDatasets(katyTweets)
+# Read katy's Tweets
+FirstAuthorTweets = gt.getAllTweetsBy2Authors(1)
+FirstAuthorList = pd.processDatasets(FirstAuthorTweets['content'])
 
-print("Read taylor's Tweets")
-taylorTweets = gt.getAllTweetsBy2Authors('taylorswift13')
-taylorList = pd.processDatasets(taylorTweets)
+# Read taylor's Tweets
+SecondAuthorTweets = gt.getAllTweetsBy2Authors(2)
+SecondAuthorList = pd.processDatasets(SecondAuthorTweets['content'])
 
-print("generate katy's object")
-katy = userAnalyse(katyList)
+# generate katy's object
+FirstAuthor = UserAnalyse(FirstAuthorList, FirstAuthorTweets['authorName'])
+# generate taylor's object
+SecondAuthor = UserAnalyse(SecondAuthorList, SecondAuthorTweets['authorName'])
 
-print("generate taylor's object")
-taylor = userAnalyse(taylorList)
+"""
+do uni-gram and analyze
+"""
+# doBiGram
+FirstAuthor.doNGram(1)
+SecondAuthor.doNGram(1)
 
-print("'known = katy , questioned = katy' analysing now")
-kk = katy.execute(katy.questionedDict)
-print("'known = katy , questioned = taylor' analysing now")
-kt = katy.execute(taylor.questionedDict)
-print("'known =  taylor, questioned = katy' analysing now")
-tk = taylor.execute(katy.questionedDict)
-print("'known =  taylor, questioned = taylor' analysing now")
-tt = taylor.execute(taylor.questionedDict)
+# FS --> Compare FirstAuthor and SecondAuthor
+FF = FirstAuthor.execute(FirstAuthor.questionedDict)
+FS = FirstAuthor.execute(SecondAuthor.questionedDict)
+SS = SecondAuthor.execute(SecondAuthor.questionedDict)
+SF = SecondAuthor.execute(FirstAuthor.questionedDict)
 
-print("known = katy , questioned = katy " + kk)
-print("known = katy , questioned = taylor " + kt)
-print("known = taylor , questioned = katy " + tk)
-print("known = taylor , questioned = taylor " + tt)
+print("=======================Result of Uni-Gram==========================")
+print("known = {} , questioned = {} ".format(FirstAuthor.name, FirstAuthor.name) + FF)
+print("known = {} , questioned = {} ".format(FirstAuthor.name, SecondAuthor.name) + FS)
+print("known = {} , questioned = {} ".format(SecondAuthor.name, SecondAuthor.name) + SS)
+print("known = {} , questioned = {} ".format(SecondAuthor.name, FirstAuthor.name) + SF)
 
+"""
+do bi-gram and analyze
+"""
+# doBiGram
+FirstAuthor.doNGram(2)
+SecondAuthor.doNGram(2)
+
+# FS --> Compare FirstAuthor and SecondAuthor
+FF = FirstAuthor.execute(FirstAuthor.questionedDict)
+FS = FirstAuthor.execute(SecondAuthor.questionedDict)
+SS = SecondAuthor.execute(SecondAuthor.questionedDict)
+SF = SecondAuthor.execute(FirstAuthor.questionedDict)
+
+print("=======================Result of Bi-Gram==========================")
+print("known = {} , questioned = {} ".format(FirstAuthor.name, FirstAuthor.name) + FF)
+print("known = {} , questioned = {} ".format(FirstAuthor.name, SecondAuthor.name) + FS)
+print("known = {} , questioned = {} ".format(SecondAuthor.name, SecondAuthor.name) + SS)
+print("known = {} , questioned = {} ".format(SecondAuthor.name, FirstAuthor.name) + SF)
+
+"""
+do tri-gram and analyze
+"""
+# doTriiGram
+FirstAuthor.doNGram(2)
+SecondAuthor.doNGram(2)
+
+# FS --> Compare FirstAuthor and SecondAuthor
+FF = FirstAuthor.execute(FirstAuthor.questionedDict)
+FS = FirstAuthor.execute(SecondAuthor.questionedDict)
+SS = SecondAuthor.execute(SecondAuthor.questionedDict)
+SF = SecondAuthor.execute(FirstAuthor.questionedDict)
+
+print("=======================Result of Bi-Gram==========================")
+print("known = {} , questioned = {} ".format(FirstAuthor.name, FirstAuthor.name) + FF)
+print("known = {} , questioned = {} ".format(FirstAuthor.name, SecondAuthor.name) + FS)
+print("known = {} , questioned = {} ".format(SecondAuthor.name, SecondAuthor.name) + SS)
+print("known = {} , questioned = {} ".format(SecondAuthor.name, FirstAuthor.name) + SF)
