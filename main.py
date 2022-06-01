@@ -15,59 +15,27 @@ FirstAuthor = UserAnalyse(FirstAuthorList, FirstAuthorTweets['authorName'])
 # generate taylor's object
 SecondAuthor = UserAnalyse(SecondAuthorList, SecondAuthorTweets['authorName'])
 
-"""
-do uni-gram and analyze
-"""
-# doBiGram
-FirstAuthor.doNGram(1)
-SecondAuthor.doNGram(1)
+def getN(N) :
+    if N == 1: return 'Uni'
+    elif N == 2 : return 'Bi'
+    elif N == 3 : return 'Tri'
 
-# FS --> Compare FirstAuthor and SecondAuthor
-FF = FirstAuthor.execute(FirstAuthor.questionedDict)
-FS = FirstAuthor.execute(SecondAuthor.questionedDict)
-SS = SecondAuthor.execute(SecondAuthor.questionedDict)
-SF = SecondAuthor.execute(FirstAuthor.questionedDict)
+for N in range(1,4) : 
+    """
+    do N-gram and analyze
+    """
+    # do N-Gram
+    FirstAuthor.doNGram(N)
+    SecondAuthor.doNGram(N)
 
-print("=======================Result of Uni-Gram==========================")
-print("known = {} , questioned = {} ".format(FirstAuthor.name, FirstAuthor.name) + FF)
-print("known = {} , questioned = {} ".format(FirstAuthor.name, SecondAuthor.name) + FS)
-print("known = {} , questioned = {} ".format(SecondAuthor.name, SecondAuthor.name) + SS)
-print("known = {} , questioned = {} ".format(SecondAuthor.name, FirstAuthor.name) + SF)
+    # FS --> Compare FirstAuthor and SecondAuthor
+    FF = FirstAuthor.execute(FirstAuthor.questionedDict)
+    FS = FirstAuthor.execute(SecondAuthor.questionedDict)
+    SS = SecondAuthor.execute(SecondAuthor.questionedDict)
+    SF = SecondAuthor.execute(FirstAuthor.questionedDict)
 
-"""
-do bi-gram and analyze
-"""
-# doBiGram
-FirstAuthor.doNGram(2)
-SecondAuthor.doNGram(2)
-
-# FS --> Compare FirstAuthor and SecondAuthor
-FF = FirstAuthor.execute(FirstAuthor.questionedDict)
-FS = FirstAuthor.execute(SecondAuthor.questionedDict)
-SS = SecondAuthor.execute(SecondAuthor.questionedDict)
-SF = SecondAuthor.execute(FirstAuthor.questionedDict)
-
-print("=======================Result of Bi-Gram==========================")
-print("known = {} , questioned = {} ".format(FirstAuthor.name, FirstAuthor.name) + FF)
-print("known = {} , questioned = {} ".format(FirstAuthor.name, SecondAuthor.name) + FS)
-print("known = {} , questioned = {} ".format(SecondAuthor.name, SecondAuthor.name) + SS)
-print("known = {} , questioned = {} ".format(SecondAuthor.name, FirstAuthor.name) + SF)
-
-"""
-do tri-gram and analyze
-"""
-# doTriiGram
-FirstAuthor.doNGram(2)
-SecondAuthor.doNGram(2)
-
-# FS --> Compare FirstAuthor and SecondAuthor
-FF = FirstAuthor.execute(FirstAuthor.questionedDict)
-FS = FirstAuthor.execute(SecondAuthor.questionedDict)
-SS = SecondAuthor.execute(SecondAuthor.questionedDict)
-SF = SecondAuthor.execute(FirstAuthor.questionedDict)
-
-print("=======================Result of Bi-Gram==========================")
-print("known = {} , questioned = {} ".format(FirstAuthor.name, FirstAuthor.name) + FF)
-print("known = {} , questioned = {} ".format(FirstAuthor.name, SecondAuthor.name) + FS)
-print("known = {} , questioned = {} ".format(SecondAuthor.name, SecondAuthor.name) + SS)
-print("known = {} , questioned = {} ".format(SecondAuthor.name, FirstAuthor.name) + SF)
+    print("=======================Result of {}-Gram==========================".format(getN(N)))
+    print("known = {} , questioned = {} ".format(FirstAuthor.name, FirstAuthor.name) + FF)
+    print("known = {} , questioned = {} ".format(FirstAuthor.name, SecondAuthor.name) + FS)
+    print("known = {} , questioned = {} ".format(SecondAuthor.name, SecondAuthor.name) + SS)
+    print("known = {} , questioned = {} ".format(SecondAuthor.name, FirstAuthor.name) + SF)
