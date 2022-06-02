@@ -4,4 +4,8 @@ pandas==1.4.2
 python-dateutil==2.8.2
 pytz==2022.1
 six==1.16.0
+<<<<<<< HEAD
 tqdm
+=======
+tqdm=4.64.0
+>>>>>>> ea7a52b549438add5846865a8ab3cce0e501776a

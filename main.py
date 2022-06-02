@@ -4,81 +4,59 @@ import getTweets as gt
 import processData as pd
 from tqdm import tqdm
 
-def main (A_NAME , B_NAME):
-    #A_NAME = 'BarackObama'
-    #B_NAME = 'taylorswift13'
+# Read first author Tweets
+FirstAuthorTweets = gt.getAllTweetsBy2Authors(1)
+FirstAuthorList = pd.processDatasets(FirstAuthorTweets['content'])
 
-    #print("Read "+A_NAME+"'s Tweets")
-    ATweets = gt.getAllTweetsBy2Authors(A_NAME)
-    AList = pd.processDatasets(ATweets)
-    #print("Read "+B_NAME+"'s Tweets")
-    BTweets = gt.getAllTweetsBy2Authors(B_NAME)
-    BList = pd.processDatasets(BTweets)
+# Read second author Tweets
+SecondAuthorTweets = gt.getAllTweetsBy2Authors(2)
+SecondAuthorList = pd.processDatasets(SecondAuthorTweets['content'])
 
-    #print("generate weight of all tweets object")
-    ALL = Weight.IDF()
+# generate weights
+AllTweetsWeight = Weight.IDF()
+AsplitIdx = int(len(FirstAuthorList)*0.9)
+FirstAuthorWeight = Weight.TF(FirstAuthorList[0 : AsplitIdx] , AsplitIdx)
+BsplitIdx = int(len(SecondAuthorList)*0.9)
+SecondAuthorWeight = Weight.TF(SecondAuthorList[0 : BsplitIdx] , BsplitIdx)
 
-    #print("generate weight of "+A_NAME+" object")
-    AsplitIdx = int(len(AList)*0.9)
-    A = Weight.TF(AList[0 : AsplitIdx] , AsplitIdx)
+# generate first author object
+FirstAuthor = Analyse.UserAnalyse(FirstAuthorList, FirstAuthorTweets['authorName'])
+# generate second auther object
+SecondAuthor = Analyse.UserAnalyse(SecondAuthorList, SecondAuthorTweets['authorName'])
 
-    #print("generate weight of "+B_NAME+" object")
-    BsplitIdx = int(len(BList)*0.9)
-    B = Weight.TF(BList[0 : BsplitIdx] , BsplitIdx)
+def getN(N) :
+    if N == 1: return 'Uni'
+    elif N == 2 : return 'Bi'
+    elif N == 3 : return 'Tri'
 
+for N in range(1,4) : 
+    
+    if N == 1:
+        """
+        do N-gram and analyze using weight
+        """
+        FF = str(round(Analyse.analise(AllTweetsWeight , FirstAuthorWeight , FirstAuthorList[AsplitIdx : len(FirstAuthorList)] , 1) , 3))
+        FS = str(round(Analyse.analise(AllTweetsWeight , FirstAuthorWeight , SecondAuthorList[BsplitIdx : len(SecondAuthorList)] , 1) , 3))
+        SF = str(round(Analyse.analise(AllTweetsWeight , SecondAuthorWeight , FirstAuthorList[AsplitIdx : len(FirstAuthorList)] , 1) , 3))
+        SS = str(round(Analyse.analise(AllTweetsWeight , SecondAuthorWeight , SecondAuthorList[BsplitIdx : len(SecondAuthorList)] , 1) , 3))
 
-    #print("'known = "+A_NAME+" , questioned = "+A_NAME+"' un-gram analysing")
-    aa = Analyse.analise(ALL , A , AList[AsplitIdx : len(AList)] , 1)
-    #print("'known = "+A_NAME+" , questioned = "+B_NAME+"' un-gram analysing")
-    ab = Analyse.analise(ALL , A , BList[BsplitIdx : len(BList)] , 1)
-    #print("'known = "+B_NAME+" , questioned = "+A_NAME+"' un-gram analysing")
-    ba = Analyse.analise(ALL , B , AList[AsplitIdx : len(AList)] , 1)
-    #print("'known = "+B_NAME+" , questioned = "+B_NAME+"' bun-gram analysing")
-    bb = Analyse.analise(ALL , B , BList[BsplitIdx : len(BList)] , 1)
+    else:
+        """
+        do N-gram and analyze
+        """
+        # do N-Gram
+        FirstAuthor.doNGram(N)
+        SecondAuthor.doNGram(N)
 
-    print("-----------------------------------UNIGRAM-----------------------------------")
-    print("known = "+A_NAME+" , questioned = "+A_NAME+" : " + str(round(aa , 3)))
-    print("known = "+A_NAME+" , questioned = "+B_NAME+" : " + str(round(ab , 3)))
-    print("known = "+B_NAME+" , questioned = "+A_NAME+" : " + str(round(ba , 3)))
-    print("known = "+B_NAME+" , questioned = "+B_NAME+" : " + str(round(bb , 3)))
+        # FS --> Compare FirstAuthor and SecondAuthor
+        FF = FirstAuthor.execute(FirstAuthor.questionedDict)
+        FS = FirstAuthor.execute(SecondAuthor.questionedDict)
+        SS = SecondAuthor.execute(SecondAuthor.questionedDict)
+        SF = SecondAuthor.execute(FirstAuthor.questionedDict)
 
-    #print("'known = "+A_NAME+" , questioned = "+A_NAME+"' bi-gram analysing")
-    aa = Analyse.analise(ALL , A , AList[AsplitIdx : len(AList)] , 2)
-    #print("'known = "+A_NAME+" , questioned = "+B_NAME+"' bi-gram analysing")
-    ab = Analyse.analise(ALL , A , BList[BsplitIdx : len(BList)] , 2)
-    #print("'known = "+B_NAME+" , questioned = "+A_NAME+"' bi-gram analysing")
-    ba = Analyse.analise(ALL , B , AList[AsplitIdx : len(AList)] , 2)
-    #print("'known = "+B_NAME+" , questioned = "+B_NAME+"' bi-gram analysing")
-    bb = Analyse.analise(ALL , B , BList[BsplitIdx : len(BList)] , 2)
-
-    print("-----------------------------------BIGRAM-----------------------------------")
-    print("known = "+A_NAME+" , questioned = "+A_NAME+" : " + str(round(aa , 3)))
-    print("known = "+A_NAME+" , questioned = "+B_NAME+" : " + str(round(ab , 3)))
-    print("known = "+B_NAME+" , questioned = "+A_NAME+" : " + str(round(ba , 3)))
-    print("known = "+B_NAME+" , questioned = "+B_NAME+" : " + str(round(bb , 3)))
-
-    #print("'known = "+A_NAME+" , questioned = "+A_NAME+"' tri-gram analysing")
-    aa = Analyse.analise(ALL , A , AList[AsplitIdx : len(AList)] , 3)
-    #print("'known = "+A_NAME+" , questioned = "+B_NAME+"' tri-gram analysing")
-    ab = Analyse.analise(ALL , A , BList[BsplitIdx : len(BList)] , 3)
-    #print("'known = "+B_NAME+" , questioned = "+A_NAME+"' tri-gram analysing")
-    ba = Analyse.analise(ALL , B , AList[AsplitIdx : len(AList)] , 3)
-    #print("'known = "+B_NAME+" , questioned = "+B_NAME+"' tri-gram analysing")
-    bb = Analyse.analise(ALL , B , BList[BsplitIdx : len(BList)] , 3)
-
-    print("-----------------------------------TRIGRAM-----------------------------------")
-    print("known = "+A_NAME+" , questioned = "+A_NAME+" : " + str(round(aa , 3)))
-    print("known = "+A_NAME+" , questioned = "+B_NAME+" : " + str(round(ab , 3)))
-    print("known = "+B_NAME+" , questioned = "+A_NAME+" : " + str(round(ba , 3)))
-    print("known = "+B_NAME+" , questioned = "+B_NAME+" : " + str(round(bb , 3)))
-
-
-if __name__ == '__main__':
-    names = ["katyperry","justinbieber","taylorswift13","BarackObama","rihanna","YouTube","ladygaga","TheEllenShow","Twitter","jtimberlake","KimKardashian","britneyspears","Cristiano","selenagomez","cnnbrk","jimmyfallon","ArianaGrande","shakira","instagram","ddlovato"]
-    main('jimmyfallon' , 'Cristiano')
-
-    """
-    for i in tqdm(range(len(names))):
-        for j in range(i , len(names)):
-            main(names[i], names[j])
-            """
+    print("=======================Result of {}-Gram==========================".format(getN(N)))
+    print("known = {} , questioned = {} ".format(FirstAuthor.name, FirstAuthor.name) + FF)
+    print("known = {} , questioned = {} ".format(FirstAuthor.name, SecondAuthor.name) + FS)
+    print("known = {} , questioned = {} ".format(SecondAuthor.name, SecondAuthor.name) + SS)
+    print("known = {} , questioned = {} ".format(SecondAuthor.name, FirstAuthor.name) + SF)
+#>>>>>>> ea7a52b549438add5846865a8ab3cce0e501776a
