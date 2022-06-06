@@ -1,48 +1,45 @@
+from ngram import doNGram ,doNGrams
 from tqdm import tqdm
-class Analyse:
-    
-    N=2
-    questionedDict = [] # 10% of self's tweets
-    knownDict = [] # 90% of self's tweet
-    questionedList = []
-    knownList = []   
+import ngram as ng
 
-    def __init__(self, tweetList) -> None:
-        """set initial conditions
-        Args:
-            self: author 
-            tweetList: tweetList of its author 
-        """
+UNIGRAM = 1
+BIGRAM = 2
+TRIGRAM = 3
 
-        # devide into two parts 'known' and 'questioned'
-        for i in range(len(tweetList)):
-            if i < len(tweetList)*0.9:
-                self.knownList.append(tweetList[i])
-            else:
-                self.questionedList.append(tweetList[i])
+def analise(all , known , questioned , ngram) -> float:
+    questioned = doNGrams(questioned, ngram)
+    weight = 0.0
+    for i in range(len(questioned)):
+        weight += all.getWeight(ngram , questioned[i]) * known.getWeight(ngram , questioned[i])
+    return weight
 
-        # do bi-gram for knownList
-        for k in range(len(self.knownList)):
-            for i in range(len(self.knownList[k])- self.N + 1):
-                tmp = []
-                for j in range(self.N):
-                    tmp.append(self.knownList[k][i+j])
-                self.knownDict.append(tmp)
+class UserAnalyse:
+    def __init__(self, tweetList, authorName) -> None:
+        self.name = authorName
+        self.tweetList = tweetList
+        self.length = len(tweetList)
+        self.lengthMiddle = self.length * 9 // 10
 
-        # do bi-gram for questionedList
-        for k in range(len(self.questionedList)):
-            for i in range(len(self.questionedList[k])- self.N+ 1):
-                tmp = []
-                for j in range(self.N):
-                    tmp.append(self.questionedList[k][i+j])
-                self.questionedDict.append(tmp)
+    def doNGram(self, N):
+        self.questionedDict = []
+        self.knownDict = []
+        self.questionedList = []
+        self.knownList = []
+        for i in range(self.lengthMiddle):
+            self.knownList.append(self.tweetList[i])
+            self.knownDict.append(ng.doNGram(self.tweetList[i],N))
+        print(len(self.knownList))
+        for i in range(self.length - self.lengthMiddle):
+            self.questionedList.append(self.tweetList[i+self.lengthMiddle])
+            self.questionedDict.append(ng.doNGram(self.tweetList[i+self.lengthMiddle],N))
 
-    # target -> questionedText : dict 
-    def analyse(self,target) -> str:
+    def execute(self,target) -> str:
         cnt = 0
-        for i in tqdm(range(len(self.knownDict))):
-            for j in range(len(target)):
-                if (self.knownDict[j][0] == target[j][0]) & (self.knownDict[j][1] == target[j][1]):
+        leng2 = 0
+        for i in range(len(target)):
+            leng2 = len(target[i])
+            for j in range(leng2):
+                if (target[i][j] in self.knownDict[i]):
                     cnt += 1
-                    print(cnt)
         return str(cnt)
+
