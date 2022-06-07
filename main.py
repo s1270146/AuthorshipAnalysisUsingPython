@@ -47,3 +47,14 @@ for N in range(1,4) :
     print("known = {} , questioned = {} ".format(FirstAuthor.name, SecondAuthor.name) + FS)
     print("known = {} , questioned = {} ".format(SecondAuthor.name, SecondAuthor.name) + SS)
     print("known = {} , questioned = {} ".format(SecondAuthor.name, FirstAuthor.name) + SF)
+
+    FF = FirstAuthor.execute(FirstAuthor.questionedDict)
+    FS = FirstAuthor.execute(SecondAuthor.questionedDict)
+    SS = SecondAuthor.execute(SecondAuthor.questionedDict)
+    SF = SecondAuthor.execute(FirstAuthor.questionedDict)
+
+    print("=======================Result of {}-Gram==========================".format(getN(N)))
+    print("known = {} , questioned = {} ".format(FirstAuthor.name, FirstAuthor.name) + FF)
+    print("known = {} , questioned = {} ".format(FirstAuthor.name, SecondAuthor.name) + FS)
+    print("known = {} , questioned = {} ".format(SecondAuthor.name, SecondAuthor.name) + SS)
+    print("known = {} , questioned = {} ".format(SecondAuthor.name, FirstAuthor.name) + SF)
