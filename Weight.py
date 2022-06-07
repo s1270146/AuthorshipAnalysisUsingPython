@@ -13,38 +13,41 @@ class IDF:
         self.allTweetsList = getAllTweets()
         self.allTweetsList = pd.processDatasets(self.allTweetsList)
         length = len(self.allTweetsList)
+        allCount = 0
+        for tweet in self.allTweetsList:
+            allCount = allCount + len(tweet)
 
-        self.allTweets1List = doNGrams(self.allTweetsList, UNIGRAM)
-        self.allTweets1Dict = Counter()
-        for i in range(len(self.allTweets1List)):
-            self.allTweets1Dict[self.allTweets1List[i][0]] +=1
-        for kw, count in self.allTweets1Dict.most_common():
-            self.allTweets1Dict[kw] = math.log(length / count)
+        self.allTweetsUniList = doNGrams(self.allTweetsList, UNIGRAM)
+        self.allTweetsUniDict = Counter()
+        for i in range(len(self.allTweetsUniList)):
+            self.allTweetsUniDict[self.allTweetsUniList[i][0]] +=1
+        for kw, count in self.allTweetsUniDict.most_common():
+            self.allTweetsUniDict[kw] = math.log(allCount / count)
 
-        self.allTweets2List = doNGrams(self.allTweetsList, BIGRAM)
-        self.allTweets2Dict = Counter()
-        for i in range(len(self.allTweets2List)):
-            self.allTweets2Dict[self.allTweets2List[i][0]+" "+self.allTweets2List[i][1]] +=1
-        for kw, count in self.allTweets2Dict.most_common():
-            self.allTweets2Dict[kw] = math.log(length / count)
+        self.allTweetsBiList = doNGrams(self.allTweetsList, BIGRAM)
+        self.allTweetsBiDict = Counter()
+        for i in range(len(self.allTweetsBiList)):
+            self.allTweetsBiDict[self.allTweetsBiList[i][0]+" "+self.allTweetsBiList[i][1]] +=1
+        for kw, count in self.allTweetsBiDict.most_common():
+            self.allTweetsBiDict[kw] = math.log(allCount / count)
 
-        self.allTweets3List = doNGrams(self.allTweetsList, TRIGRAM)
-        self.allTweets3Dict = Counter()
-        for i in range(len(self.allTweets3List)):
-            self.allTweets3Dict[self.allTweets3List[i][0]+" "+self.allTweets3List[i][1]+" "+self.allTweets3List[i][2]] +=1
-        for kw, count in self.allTweets3Dict.most_common():
-            self.allTweets3Dict[kw] = math.log(length / count)
+        self.allTweetsTriList = doNGrams(self.allTweetsList, TRIGRAM)
+        self.allTweetsTriDict = Counter()
+        for i in range(len(self.allTweetsTriList)):
+            self.allTweetsTriDict[self.allTweetsTriList[i][0]+" "+self.allTweetsTriList[i][1]+" "+self.allTweetsTriList[i][2]] +=1
+        for kw, count in self.allTweetsTriDict.most_common():
+            self.allTweetsTriDict[kw] = math.log(allCount / count)
 
     def getWeight(self , num , sample) -> float:
         if num == UNIGRAM:
             tmp = sample[0]
-            return self.allTweets1Dict[tmp]
+            return self.allTweetsUniDict[tmp]
         elif num == BIGRAM:
             tmp = sample[0]+" "+sample[1]
-            return self.allTweets2Dict[tmp] 
+            return self.allTweetsBiDict[tmp] 
         elif num == TRIGRAM:
             tmp = sample[0]+" "+sample[1]+" "+sample[2]
-            return self.allTweets3Dict[tmp] 
+            return self.allTweetsTriDict[tmp] 
         else:
             return 0
 

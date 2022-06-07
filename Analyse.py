@@ -6,7 +6,7 @@ UNIGRAM = 1
 BIGRAM = 2
 TRIGRAM = 3
 
-def analise(all , known , questioned , ngram) -> float:
+def analyse(all , known , questioned , ngram) -> float:
     questioned = doNGrams(questioned, ngram)
     weight = 0.0
     for i in range(len(questioned)):
@@ -39,7 +39,7 @@ class UserAnalyse:
         for i in range(len(target)):
             leng2 = len(target[i])
             for j in range(leng2):
-                if (target[i][j] in self.knownDict[i]):
+                if (target[i][j] in self.knownDict):
                     cnt += 1
         return str(cnt)
 
