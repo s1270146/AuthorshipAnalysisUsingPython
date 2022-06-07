@@ -13,6 +13,15 @@ def analyse(all , known , questioned , ngram) -> float:
         weight += all.getWeight(ngram , questioned[i]) * known.getWeight(ngram , questioned[i])
     return weight
 
+def putScore(all , known , questioned , ngram) -> float:
+    questioned = doNGrams(questioned, ngram)
+    scoreList = []
+    weight = 0.0
+    for i in range(len(questioned)):
+        weight = all.getWeight(ngram , questioned[i]) * known.getWeight(ngram , questioned[i])
+        scoreList.append(weight)
+    return scoreList
+
 class UserAnalyse:
     def __init__(self, tweetList, authorName) -> None:
         self.name = authorName
@@ -28,7 +37,6 @@ class UserAnalyse:
         for i in range(self.lengthMiddle):
             self.knownList.append(self.tweetList[i])
             self.knownDict.append(ng.doNGram(self.tweetList[i],N))
-        print(len(self.knownList))
         for i in range(self.length - self.lengthMiddle):
             self.questionedList.append(self.tweetList[i+self.lengthMiddle])
             self.questionedDict.append(ng.doNGram(self.tweetList[i+self.lengthMiddle],N))
@@ -39,7 +47,8 @@ class UserAnalyse:
         for i in range(len(target)):
             leng2 = len(target[i])
             for j in range(leng2):
-                if (target[i][j] in self.knownDict):
-                    cnt += 1
+                for k in range(len(self.knownDict)):
+                    if (target[i][j] in self.knownDict[k]):
+                        cnt += 1
         return str(cnt)
 

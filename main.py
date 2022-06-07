@@ -25,9 +25,8 @@ FirstAuthorWeight = Weight.TF(FirstAuthorList[0 : firstMiddle] , firstMiddle)
 secondMiddle = int(len(SecondAuthorList)*0.9)
 SecondAuthorWeight = Weight.TF(SecondAuthorList[0 : secondMiddle] , secondMiddle)
 
-# generate first author object
+# 著者のオブジェクトを作成
 FirstAuthor = Analyse.UserAnalyse(FirstAuthorList, FirstAuthorTweets['authorName'])
-# generate second auther object
 SecondAuthor = Analyse.UserAnalyse(SecondAuthorList, SecondAuthorTweets['authorName'])
 
 def getN(N) :
@@ -48,12 +47,15 @@ for N in range(1,4) :
     print("known = {} , questioned = {} ".format(SecondAuthor.name, SecondAuthor.name) + SS)
     print("known = {} , questioned = {} ".format(SecondAuthor.name, FirstAuthor.name) + SF)
 
+    FirstAuthor.doNGram(N)
+    SecondAuthor.doNGram(N)
+
     FF = FirstAuthor.execute(FirstAuthor.questionedDict)
     FS = FirstAuthor.execute(SecondAuthor.questionedDict)
     SS = SecondAuthor.execute(SecondAuthor.questionedDict)
     SF = SecondAuthor.execute(FirstAuthor.questionedDict)
 
-    print("=======================Result of {}-Gram==========================".format(getN(N)))
+    print("=======================Count of {}-Gram==========================".format(getN(N)))
     print("known = {} , questioned = {} ".format(FirstAuthor.name, FirstAuthor.name) + FF)
     print("known = {} , questioned = {} ".format(FirstAuthor.name, SecondAuthor.name) + FS)
     print("known = {} , questioned = {} ".format(SecondAuthor.name, SecondAuthor.name) + SS)
