@@ -13,12 +13,19 @@ def analyse(all , known , questioned , ngram) -> float:
         weight += all.getWeight(ngram , questioned[i]) * known.getWeight(ngram , questioned[i])
     return weight
 
-def putScore(all , known , questioned , ngram) -> float:
-    questioned = doNGrams(questioned, ngram)
+def putScore(all , known , questioned , n) -> float:
+    questionedList = []
+    # doNGrams(questioned, ngram)
+    for tweet in questioned:
+        questionedList.append(doNGram(tweet,n))
     scoreList = []
-    weight = 0.0
-    for i in range(len(questioned)):
-        weight = all.getWeight(ngram , questioned[i]) * known.getWeight(ngram , questioned[i])
+    for tweet in questionedList:
+        if len(tweet)<n:
+            scoreList.append(0)
+            continue
+        weight = 0.0
+        for i in range(len(tweet)-n+1):
+            weight += all.getWeight(n , tweet[i]) * known.getWeight(n , tweet[i])
         scoreList.append(weight)
     return scoreList
 
