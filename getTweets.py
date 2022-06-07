@@ -18,6 +18,12 @@ def getAllTweets():
     data = pd.read_csv('tweets.csv',usecols=[0,1])
     return data['content'].astype(str)
 
+def anotherTweets(name, num):
+    data = pd.read_csv('tweets.csv',usecols=[0,1])
+    data = data[data['author']!=name]
+    data = data.sample(n = num)
+    return data['content'].astype(str)
+
 if __name__ == '__main__':
     name1 = 'katyperry'
     name2 = 'taylorswift13'
