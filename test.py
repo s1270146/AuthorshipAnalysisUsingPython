@@ -41,26 +41,33 @@ for N in range(1,4) :
     FS = Analyse.putScore(AllTweetsWeight , FirstAuthorWeight , SecondAuthorList[secondMiddle : len(SecondAuthorList)] , N)
     SS = Analyse.putScore(AllTweetsWeight , SecondAuthorWeight , SecondAuthorList[secondMiddle : len(SecondAuthorList)] , N)
     SF = Analyse.putScore(AllTweetsWeight , SecondAuthorWeight , FirstAuthorList[firstMiddle : len(FirstAuthorList)] , N)
-    
+    print()
+    for i in range(1,11):
+        passingPoint = round(i/(10**N),5)
+        print("################# Pass Score = {} #################".format(passingPoint))
+        print()
 
-    sumFF = sum(x>0 for x in FF)
-    sumFS = sum(x>0 for x in FS)
-    sumSS = sum(x>0 for x in SS)
-    sumSF = sum(x>0 for x in SF)
+        cntFF = sum(x>passingPoint for x in FF)
+        cntFS = sum(x>passingPoint for x in FS)
 
-    aveFF = sum(FF)/len(FF)
-    aveFS = sum(FS)/len(FS)
-    aveSS = sum(SS)/len(SS)
-    aveSF = sum(SF)/len(SF)
+        cntSS = sum(x>passingPoint for x in SS)
+        cntSF = sum(x>passingPoint for x in SF)
 
-    print("======= SUM =======")
-    print(str(sumFF) + " out of " + str(len(FF)))
-    print(str(sumFS) + " out of " + str(len(FS)))
-    print(str(sumSS) + " out of " + str(len(SS)))
-    print(str(sumSF) + " out of " + str(len(SF)))
+        tp = round(cntFF/len(FF)*100, 2)
+        fp = round(cntFS/len(FF)*100, 2)
+        fn = round(cntSF/len(SS)*100, 2)
+        tn = round(cntSS/len(SS)*100, 2)
 
-    print("======= AVE =======")
-    print(aveFF)
-    print(aveFS)
-    print(aveSS)
-    print(aveSF)
+        print(str(cntFF) + " out of " + str(len(FF)) + " (" + str(tp) + "%)")
+        print(str(cntFS) + " out of " + str(len(FF)) + " (" + str(fp) + "%)")
+        print(str(cntSS) + " out of " + str(len(SS)) + " (" + str(tn) + "%)")
+        print(str(cntSF) + " out of " + str(len(SS)) + " (" + str(fn) + "%)")
+
+        print()
+
+        print("Accurancy(正解率) : " + str(round((tp+tn)/(tp+fp+fn+tn)*100,2)) + "%")
+        print("Precision(適合率) : " + str(round(tp/(tp+fp)*100,2)) + "%")
+        print("Recall(再現率) : " + str(round(tp/(tp+fn)*100,2)) + "%")
+        print("Specificity(特異率) : " + str(round(tn/(tn+fp)*100,2)) + "%")
+
+        print()
