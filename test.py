@@ -75,20 +75,21 @@ for N in range(1,4) :
         print("TP = "+ str(tp))
         print("FP = "+ str(fp))
         print("FN = "+ str(fn))
-        print("TP = "+ str(tn))
+        print("TN = "+ str(tn))
         print()
 
         print("Accurancy(正解率) : " + str(round((tp+tn)/(tp+fp+fn+tn)*100,2)) + "%")
         print("Precision(適合率) : " + str(round(tp/(tp+fp)*100,2)) + "%")
         print("Recall(再現率) : " + str(round(tp/(tp+fn)*100,2)) + "%")
         print("Specificity(特異率) : " + str(round(tn/(tn+fp)*100,2)) + "%")
+        print("F-measure(F値) : " + str(round(2*(tp/(tp+fp)*100)*(tp/(tp+fn)*100)/((tp/(tp+fp)*100)+(tp/(tp+fn)*100)),2)) + "%")
 
         print()
         print("--- {} ---".format(SecondAuthor.name))
 
         tp = cntSS
-        fp = len(FF)-cntSS
-        fn = cntSA
+        fp = cntSA
+        fn = len(SS)-cntSS
         tn = len(SA)-cntSA
 
         print(str(cntSS) + " out of " + str(len(SS)) + " (" + str(round(cntSS/len(SS)*100,2)) + "%)")
@@ -96,12 +97,12 @@ for N in range(1,4) :
         print("TP = "+ str(tp))
         print("FP = "+ str(fp))
         print("FN = "+ str(fn))
-        print("TP = "+ str(tn))
+        print("TN = "+ str(tn))
         print()
 
         print("Accurancy(正解率) : " + str(round((tp+tn)/(tp+fp+fn+tn)*100,2)) + "%")
         print("Precision(適合率) : " + str(round(tp/(tp+fp)*100,2)) + "%")
         print("Recall(再現率) : " + str(round(tp/(tp+fn)*100,2)) + "%")
         print("Specificity(特異率) : " + str(round(tn/(tn+fp)*100,2)) + "%")
-
+        print("F-measure(F値) : " + str(round(2*(tp/(tp+fp)*100)*(tp/(tp+fn)*100)/((tp/(tp+fp)*100)+(tp/(tp+fn)*100)),2)) + "%")
         print()
